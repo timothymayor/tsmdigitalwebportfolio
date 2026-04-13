@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Bot, 
@@ -109,6 +109,7 @@ const blogPosts = [
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,6 +118,32 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+    
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/admin@tsmdigital.solutions", {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        setFormStatus('success');
+        (e.target as HTMLFormElement).reset();
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      setFormStatus('error');
+    }
+  };
 
   const navLinks = [
     { name: 'About', href: '#about' },
@@ -141,7 +168,7 @@ export default function App() {
               <Zap className="text-white w-6 h-6" />
             </div>
             <span className="text-xl font-display font-extrabold tracking-tighter">
-              TSM <span className="text-brand-primary">DIGITAL</span>
+              TSM <span className="text-brand-primary">DIGITAL SOLUTIONS</span>
             </span>
           </a>
 
@@ -156,8 +183,8 @@ export default function App() {
                 {link.name}
               </a>
             ))}
-            <Button className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-6">
-              Get Started
+            <Button asChild className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-6">
+              <a href="#contact">Get Started</a>
             </Button>
           </nav>
 
@@ -225,11 +252,11 @@ export default function App() {
                   that transform how businesses operate and grow in the digital age.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button size="lg" className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-8 h-14 text-lg w-full sm:w-auto">
-                    Explore Solutions <ArrowRight className="ml-2 w-5 h-5" />
+                  <Button asChild size="lg" className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-8 h-14 text-lg w-full sm:w-auto">
+                    <a href="#services">Explore Solutions <ArrowRight className="ml-2 w-5 h-5" /></a>
                   </Button>
-                  <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg w-full sm:w-auto">
-                    View Our Work
+                  <Button asChild size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg w-full sm:w-auto">
+                    <a href="#projects">View Our Work</a>
                   </Button>
                 </div>
               </motion.div>
@@ -297,7 +324,7 @@ export default function App() {
                 
                 <div className="grid grid-cols-2 gap-8">
                   <div>
-                    <p className="text-4xl font-bold text-brand-primary mb-2">150+</p>
+                    <p className="text-4xl font-bold text-brand-primary mb-2">50+</p>
                     <p className="text-sm text-slate-500 font-medium uppercase tracking-wider">Projects Delivered</p>
                   </div>
                   <div>
@@ -492,7 +519,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-sm text-slate-500 font-medium uppercase tracking-wider mb-1">Email Us</p>
-                      <p className="text-xl font-bold">hello@tsmdigital.com</p>
+                      <p className="text-xl font-bold">info@tsmdigital.solutions</p>
                     </div>
                   </div>
                   
@@ -502,7 +529,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-sm text-slate-500 font-medium uppercase tracking-wider mb-1">Call Us</p>
-                      <p className="text-xl font-bold">+1 (555) 123-4567</p>
+                      <p className="text-xl font-bold">+2348143908377</p>
                     </div>
                   </div>
                   
@@ -512,61 +539,92 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-sm text-slate-500 font-medium uppercase tracking-wider mb-1">Visit Us</p>
-                      <p className="text-xl font-bold">123 AI Plaza, Tech City, TC 94103</p>
+                      <p className="text-xl font-bold">32 Dele Awelewa Street, Bucknor, Ejigbo LCDA, Lagos, Nigeria</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Map Placeholder */}
+                {/* Google Map */}
                 <div className="mt-12 aspect-video rounded-3xl bg-slate-100 border border-slate-200 overflow-hidden relative">
-                  <img 
-                    src="https://picsum.photos/seed/map/800/450" 
-                    alt="Office Location" 
-                    className="w-full h-full object-cover grayscale opacity-50"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3">
-                      <div className="w-3 h-3 bg-brand-primary rounded-full animate-ping" />
-                      <span className="font-bold">Our Headquarters</span>
-                    </div>
-                  </div>
+                  <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.044704336043!2d3.2954445!3d6.5160166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8f1c8a1c8a1d%3A0x1d1d1d1d1d1d1d1d!2s32%20Dele%20Awelewa%20St%2C%20Ejigbo%20102214%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1713000000000!5m2!1sen!2sng" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0 }} 
+                    allowFullScreen 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
                 </div>
               </div>
 
               <div className="glass-panel p-8 md:p-12 rounded-3xl">
-                <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-slate-700">First Name</label>
-                      <Input placeholder="John" className="rounded-xl h-12" />
+                {formStatus === 'success' ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-12"
+                  >
+                    <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle2 className="text-green-500 w-10 h-10" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4">Message Sent!</h3>
+                    <p className="text-slate-600 mb-8">
+                      Thank you for reaching out. Our team will get back to you at admin@tsmdigital.solutions shortly.
+                    </p>
+                    <Button 
+                      onClick={() => setFormStatus('idle')}
+                      variant="outline" 
+                      className="rounded-xl"
+                    >
+                      Send Another Message
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleFormSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-slate-700">First Name</label>
+                        <Input name="firstName" required placeholder="John" className="rounded-xl h-12" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-slate-700">Last Name</label>
+                        <Input name="lastName" required placeholder="Doe" className="rounded-xl h-12" />
+                      </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-slate-700">Last Name</label>
-                      <Input placeholder="Doe" className="rounded-xl h-12" />
+                      <label className="text-sm font-medium text-slate-700">Email Address</label>
+                      <Input name="email" type="email" required placeholder="john@example.com" className="rounded-xl h-12" />
                     </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Email Address</label>
-                    <Input type="email" placeholder="john@example.com" className="rounded-xl h-12" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Service Interested In</label>
-                    <select className="flex h-12 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                      <option>AI Shopping Agents</option>
-                      <option>Managed Ecommerce</option>
-                      <option>Product Development</option>
-                      <option>AI Integrations</option>
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Message</label>
-                    <Textarea placeholder="Tell us about your project..." className="rounded-xl min-h-[150px]" />
-                  </div>
-                  <Button className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white h-14 rounded-xl text-lg font-bold">
-                    Send Message
-                  </Button>
-                </form>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-slate-700">Service Interested In</label>
+                      <select name="service" className="flex h-12 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                        <option>AI Shopping Agents</option>
+                        <option>Managed Ecommerce</option>
+                        <option>Product Development</option>
+                        <option>AI Integrations</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-slate-700">Message</label>
+                      <Textarea name="message" required placeholder="Tell us about your project..." className="rounded-xl min-h-[150px]" />
+                    </div>
+                    
+                    {formStatus === 'error' && (
+                      <p className="text-sm text-red-500 font-medium">
+                        Something went wrong. Please try again or email us directly.
+                      </p>
+                    )}
+
+                    <Button 
+                      type="submit"
+                      disabled={formStatus === 'submitting'}
+                      className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white h-14 rounded-xl text-lg font-bold disabled:opacity-70"
+                    >
+                      {formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
+                    </Button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
@@ -583,7 +641,7 @@ export default function App() {
                   <Zap className="text-white w-6 h-6" />
                 </div>
                 <span className="text-xl font-display font-extrabold tracking-tighter">
-                  TSM <span className="text-brand-primary">DIGITAL</span>
+                  TSM <span className="text-brand-primary">DIGITAL SOLUTIONS</span>
                 </span>
               </a>
               <p className="text-lg text-slate-600 max-w-md leading-relaxed mb-8">
@@ -626,7 +684,7 @@ export default function App() {
           
           <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-slate-200 gap-6">
             <p className="text-sm text-slate-500">
-              © 2024 TSM Digital Solutions. All rights reserved.
+              © 2026 TSM Digital Solutions. All rights reserved.
             </p>
             <div className="flex gap-8">
               <a href="#" className="text-sm text-slate-500 hover:text-brand-primary">Privacy Policy</a>
