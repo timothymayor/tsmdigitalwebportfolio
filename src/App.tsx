@@ -184,7 +184,7 @@ export default function App() {
               </a>
             ))}
             <Button asChild className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-6">
-              <a href="#contact">Get Started</a>
+              <a href="#contact" className="flex items-center justify-center w-full h-full">Get Started</a>
             </Button>
           </nav>
 
@@ -253,10 +253,12 @@ export default function App() {
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Button asChild size="lg" className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-8 h-14 text-lg w-full sm:w-auto">
-                    <a href="#services">Explore Solutions <ArrowRight className="ml-2 w-5 h-5" /></a>
+                    <a href="#services" className="flex items-center justify-center w-full h-full gap-2">
+                      Explore Solutions <ArrowRight className="w-5 h-5" />
+                    </a>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg w-full sm:w-auto">
-                    <a href="#projects">View Our Work</a>
+                    <a href="#projects" className="flex items-center justify-center w-full h-full">View Our Work</a>
                   </Button>
                 </div>
               </motion.div>
