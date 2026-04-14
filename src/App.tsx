@@ -127,7 +127,7 @@ export default function App() {
     const formData = new FormData(e.currentTarget);
     
     try {
-      const response = await fetch("https://formspree.io/admin@tsmdigital.solutions", {
+      const response = await fetch("https://formspree.io/tsmdigital.solutions@gmail.com", {
         method: "POST",
         body: formData,
         headers: {
@@ -569,7 +569,7 @@ export default function App() {
                     </div>
                     <h3 className="text-2xl font-bold mb-4">Message Sent!</h3>
                     <p className="text-slate-600 mb-8">
-                      Thank you for reaching out. Our team will get back to you at admin@tsmdigital.solutions shortly.
+                      Thank you for reaching out. Our team will get back to you at tsmdigital.solutions@gmail.com shortly.
                     </p>
                     <Button 
                       onClick={() => setFormStatus('idle')}
