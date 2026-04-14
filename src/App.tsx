@@ -22,11 +22,12 @@ import {
   Globe,
   Rocket
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 const services = [
   {
@@ -126,7 +127,7 @@ export default function App() {
     const formData = new FormData(e.currentTarget);
     
     try {
-      const response = await fetch("https://formspree.io/f/admin@tsmdigital.solutions", {
+      const response = await fetch("https://formspree.io/admin@tsmdigital.solutions", {
         method: "POST",
         body: formData,
         headers: {
@@ -138,9 +139,12 @@ export default function App() {
         setFormStatus('success');
         (e.target as HTMLFormElement).reset();
       } else {
+        const data = await response.json();
+        console.error("Formspree error:", data);
         setFormStatus('error');
       }
     } catch (error) {
+      console.error("Submission error:", error);
       setFormStatus('error');
     }
   };
@@ -183,9 +187,15 @@ export default function App() {
                 {link.name}
               </a>
             ))}
-            <Button asChild className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-6">
-              <a href="#contact" className="flex items-center justify-center w-full h-full">Get Started</a>
-            </Button>
+            <a 
+              href="#contact" 
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-6 flex items-center justify-center"
+              )}
+            >
+              Get Started
+            </a>
           </nav>
 
           {/* Mobile Menu Toggle */}
@@ -217,9 +227,16 @@ export default function App() {
                     {link.name}
                   </a>
                 ))}
-                <Button className="bg-brand-primary hover:bg-brand-primary/90 text-white w-full">
+                <a 
+                  href="#contact" 
+                  className={cn(
+                    buttonVariants({ variant: "default" }),
+                    "bg-brand-primary hover:bg-brand-primary/90 text-white w-full flex items-center justify-center h-12 rounded-xl"
+                  )}
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Get Started
-                </Button>
+                </a>
               </div>
             </motion.div>
           )}
@@ -252,44 +269,24 @@ export default function App() {
                   that transform how businesses operate and grow in the digital age.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button asChild size="lg" className="bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-8 h-14 text-lg w-full sm:w-auto">
-                    <a href="#services" className="flex items-center justify-center w-full h-full gap-2">
-                      Explore Solutions <ArrowRight className="w-5 h-5" />
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg w-full sm:w-auto">
-                    <a href="#projects" className="flex items-center justify-center w-full h-full">View Our Work</a>
-                  </Button>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="mt-20 relative"
-              >
-                <div className="aspect-video rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-slate-100">
-                  <img 
-                    src="https://picsum.photos/seed/tech-hero/1920/1080" 
-                    alt="AI Technology" 
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 to-transparent" />
-                </div>
-                
-                {/* Floating elements */}
-                <div className="absolute -top-10 -right-10 hidden lg:block">
-                  <div className="glass-panel p-6 rounded-2xl flex items-center gap-4 animate-bounce-slow">
-                    <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center">
-                      <CheckCircle2 className="text-green-500" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Conversion Rate</p>
-                      <p className="text-2xl font-bold">+42%</p>
-                    </div>
-                  </div>
+                  <a 
+                    href="#services" 
+                    className={cn(
+                      buttonVariants({ size: "lg" }),
+                      "bg-brand-primary hover:bg-brand-primary/90 text-white rounded-full px-8 h-14 text-lg w-full sm:w-auto flex items-center justify-center gap-2"
+                    )}
+                  >
+                    Explore Solutions <ArrowRight className="w-5 h-5" />
+                  </a>
+                  <a 
+                    href="#projects" 
+                    className={cn(
+                      buttonVariants({ size: "lg", variant: "outline" }),
+                      "rounded-full px-8 h-14 text-lg w-full sm:w-auto flex items-center justify-center"
+                    )}
+                  >
+                    View Our Work
+                  </a>
                 </div>
               </motion.div>
             </div>
@@ -584,6 +581,7 @@ export default function App() {
                   </motion.div>
                 ) : (
                   <form onSubmit={handleFormSubmit} className="space-y-6">
+                    <input type="hidden" name="_subject" value="New Contact Form Submission - TSM Digital Solutions" />
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-700">First Name</label>
