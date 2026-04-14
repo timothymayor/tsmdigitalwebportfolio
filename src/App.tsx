@@ -538,7 +538,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-sm text-slate-500 font-medium uppercase tracking-wider mb-1">Visit Us</p>
-                      <p className="text-xl font-bold">32 Dele Awelewa Street, Bucknor, Ejigbo LCDA, Lagos, Nigeria</p>
+                      <p className="text-xl font-bold">32 John Kayode Obafemi Street, Bucknor, Ejigbo LCDA, Lagos, Nigeria</p>
                     </div>
                   </div>
                 </div>
@@ -546,7 +546,7 @@ export default function App() {
                 {/* Google Map */}
                 <div className="mt-12 aspect-video rounded-3xl bg-slate-100 border border-slate-200 overflow-hidden relative">
                   <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.044704336043!2d3.2954445!3d6.5160166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8f1c8a1c8a1d%3A0x1d1d1d1d1d1d1d1d!2s32%20Dele%20Awelewa%20St%2C%20Ejigbo%20102214%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1713000000000!5m2!1sen!2sng" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.044704336043!2d3.2954445!3d6.5160166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8f1c8a1c8a1d%3A0x1d1d1d1d1d1d1d1d!2s32%20John%20Kayode%20Obafemi%20St%2C%20Bucknor%2C%20Ejigbo%20102214%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1713000000000!5m2!1sen!2sng" 
                     width="100%" 
                     height="100%" 
                     style={{ border: 0 }} 
